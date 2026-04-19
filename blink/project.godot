@@ -14,3 +14,7 @@ config/name="Blink"
 run/main_scene="uid://dg4vpttul0qlg"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

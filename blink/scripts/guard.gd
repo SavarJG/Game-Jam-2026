@@ -15,6 +15,7 @@ var player_spotted: bool = false
 @onready var vision_cone = $VisionCone
 @onready var debug_label = $Label
 @onready var noise_radius = $NoiseRadius
+@onready var animated_sprite = $AnimatedSprite2D
 
 func _ready():
 	patrol_points.append($PatrolPoints/PointA.global_position)
@@ -35,6 +36,7 @@ func _handle_patrol(delta: float):
 		return
 	var target = patrol_points[current_point]
 	var direction = (target - global_position).normalized()
+	_handle_animation(direction)
 	var distance = global_position.distance_to(target)
 	if distance < 4.0:
 		velocity = Vector2.ZERO
@@ -52,8 +54,9 @@ func _handle_awareness(delta: float):
 			if body.modulate.a > 0.5:
 				player_visible_nearby = true
 				var direction = (body.global_position - global_position).normalized()
+				_handle_animation(direction)
 				var target_angle = atan2(direction.y, direction.x)
-				rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
+				vision_cone.rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
 	if not player_visible_nearby:
 		player_spotted = false
 		reaction_timer = 0.0
@@ -70,3 +73,16 @@ func _handle_detection(delta: float):
 			get_tree().reload_current_scene()
 	else:
 		reaction_timer = 0.0
+
+func _handle_animation(directioning: Vector2):
+	if directioning.x > 0:
+		animated_sprite.play('walk_right')
+	elif directioning.x < 0:
+		animated_sprite.play('walk_left')
+	elif directioning.y > 0:
+		animated_sprite.play('walk_up')
+	elif directioning.y < 0:
+		animated_sprite.play('walk_down')
+
+	else:
+		animated_sprite.play('idle')
