@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://dg4vpttul0qlg"]
+[gd_scene load_steps=5 format=3 uid="uid://dg4vpttul0qlg"]
 
-[ext_resource type="PackedScene" uid="uid://ck7x0kdbwurs0" path="res://scenes/Player.tscn" id="1_bpt1m"]
+[ext_resource type="Script" uid="uid://bloncm5onenqt" path="res://scripts/player.gd" id="1_mofoo"]
+[ext_resource type="PackedScene" uid="uid://cxika2oalog6h" path="res://scenes/guard.tscn" id="3_nr3cb"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3li8b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v6fml"]
+size = Vector2(10, 10)
 
 [node name="Level_01" type="Node2D"]
 
@@ -11,4 +17,37 @@ offset_right = 320.0
 offset_bottom = 180.0
 color = Color(0, 0.14902, 0.603922, 1)
 
-[node name="Player" parent="." instance=ExtResource("1_bpt1m")]
+[node name="Player" type="CharacterBody2D" parent="."]
+script = ExtResource("1_mofoo")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player"]
+sprite_frames = SubResource("SpriteFrames_3li8b")
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+
+[node name="ColorRect" type="ColorRect" parent="Player"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(0, 1, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_v6fml")
+
+[node name="Label" type="Label" parent="Player"]
+offset_left = -20.0
+offset_top = -13.0
+offset_right = 20.0
+offset_bottom = 13.0
+
+[node name="Guard2" parent="." instance=ExtResource("3_nr3cb")]
+position = Vector2(-233, 104)
+
+[node name="PointA" parent="Guard2/PatrolPoints" index="0"]
+position = Vector2(-80, 0)
+
+[node name="PointB" parent="Guard2/PatrolPoints" index="1"]
+position = Vector2(302, -1)
+
+[editable path="Guard2"]
