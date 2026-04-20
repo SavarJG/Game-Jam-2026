@@ -10,6 +10,7 @@ extends CharacterBody2D
 var stamina: float = 100.0
 var is_moving: bool = false
 var is_exhausted: bool = false
+var last_pos: String = ''
 
 # --- node references ---
 @onready var sprite = $AnimatedSprite2D
@@ -35,17 +36,26 @@ func _handle_movement(delta: float):
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("ui_right"):
 		direction.x += 1
+		sprite.play('walk_right')
+		last_pos = 'R'
 	if Input.is_action_pressed("ui_left"):
 		direction.x -= 1
+		sprite.play('walk_left')
+		last_pos = 'L'
 	if Input.is_action_pressed("ui_down"):
 		direction.y += 1
+		sprite.play('walk_down')
+		last_pos = 'D'
 	if Input.is_action_pressed("ui_up"):
 		direction.y -= 1
+		sprite.play('walk_up')
+		last_pos = 'U'
 	if direction.length() > 0:
 		direction = direction.normalized()
 		is_moving = true
 	else:
 		is_moving = false
+		_handle_idle(last_pos)
 	velocity = direction * speed
 
 func _handle_stamina(delta: float):
@@ -74,3 +84,13 @@ func _handle_visibility():
 
 func get_stamina_percent() -> float:
 	return stamina / stamina_max
+
+func _handle_idle(idle_pos: String):
+	if idle_pos == 'R':
+		sprite.play('idle_right')
+	elif idle_pos == 'L':
+		sprite.play('idle_left')
+	elif idle_pos == 'D':
+		sprite.play('idle_front')
+	elif idle_pos == 'U':
+		sprite.play('idle_back');

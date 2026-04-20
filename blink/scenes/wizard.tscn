@@ -1,0 +1,142 @@
+[gd_scene load_steps=21 format=3 uid="uid://r3fcj0sor2fq"]
+
+[ext_resource type="Script" uid="uid://doy820p4rh1j1" path="res://scripts/wizard.gd" id="1_j4iv4"]
+[ext_resource type="Texture2D" uid="uid://ddsikcpnyshme" path="res://assets/sprites/Wizard/Idle.png" id="1_leome"]
+[ext_resource type="Texture2D" uid="uid://w6b70l4ytck2" path="res://assets/sprites/Wizard/Attack1.png" id="2_j4iv4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmnu7"]
+atlas = ExtResource("1_leome")
+region = Rect2(0, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ipgv"]
+atlas = ExtResource("1_leome")
+region = Rect2(231, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qlyk"]
+atlas = ExtResource("1_leome")
+region = Rect2(462, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jkov"]
+atlas = ExtResource("1_leome")
+region = Rect2(693, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ba5mt"]
+atlas = ExtResource("1_leome")
+region = Rect2(924, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_var7a"]
+atlas = ExtResource("1_leome")
+region = Rect2(1155, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1g42w"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(0, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otiyp"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(231, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1ugj"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(462, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v60b6"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(693, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbuw5"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(924, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t1csj"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(1155, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nnu41"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(1386, 0, 231, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlaja"]
+atlas = ExtResource("2_j4iv4")
+region = Rect2(1617, 0, 231, 190)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_y3hnb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmnu7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ipgv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qlyk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jkov")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ba5mt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_var7a")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1g42w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otiyp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1ugj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v60b6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbuw5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t1csj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nnu41")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nlaja")
+}],
+"loop": false,
+"name": &"Teleport",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tlp34"]
+size = Vector2(19, 45)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_leome"]
+size = Vector2(89.75, 80.25)
+
+[node name="Wizard" type="CharacterBody2D"]
+script = ExtResource("1_j4iv4")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_y3hnb")
+animation = &"Idle"
+frame = 5
+frame_progress = 0.676624
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6.5, 8.5)
+shape = SubResource("RectangleShape2D_tlp34")
+
+[node name="WizardArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WizardArea"]
+position = Vector2(3.125, 5.875)
+shape = SubResource("RectangleShape2D_leome")
