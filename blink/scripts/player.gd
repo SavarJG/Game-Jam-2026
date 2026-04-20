@@ -94,3 +94,13 @@ func _handle_idle(idle_pos: String):
 		sprite.play('idle_front')
 	elif idle_pos == 'U':
 		sprite.play('idle_back');
+
+
+func kill():
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	sprite.pause()
+	modulate = Color(1, 0, 0, 1)
+	sprite.rotation_degrees = 90
+	await get_tree().create_timer(0.2).timeout
+	get_tree().reload_current_scene()

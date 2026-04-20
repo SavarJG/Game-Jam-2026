@@ -9,22 +9,23 @@ var patrol_points: Array = []
 var current_point: int = 0
 var waiting: bool = false
 var wait_timer: float = 0.0
-var reaction_timer: float = 0.0
-var player_spotted: bool = false
+var is_alerted: bool = false
+var is_killing: bool = false
 
 @onready var vision_cone = $VisionCone
-@onready var debug_label = $Label
 @onready var noise_radius = $NoiseRadius
 @onready var animated_sprite = $AnimatedSprite2D
 
 func _ready():
 	patrol_points.append($PatrolPoints/PointA.global_position)
 	patrol_points.append($PatrolPoints/PointB.global_position)
+	$VisionCone.body_entered.connect(_on_body_entered_vision)
 
 func _physics_process(delta: float):
-	_handle_patrol(delta)
-	_handle_detection(delta)
-	_handle_awareness(delta)
+	_handle_noise(delta)
+	_handle_vision_detection()
+	if not is_alerted:
+		_handle_patrol(delta)
 	move_and_slide()
 
 func _handle_patrol(delta: float):
@@ -37,6 +38,7 @@ func _handle_patrol(delta: float):
 	var target = patrol_points[current_point]
 	var direction = (target - global_position).normalized()
 	_handle_animation(direction)
+	_update_vision_cone(direction)
 	var distance = global_position.distance_to(target)
 	if distance < 4.0:
 		velocity = Vector2.ZERO
@@ -45,44 +47,56 @@ func _handle_patrol(delta: float):
 	else:
 		velocity = direction * speed
 
-
-func _handle_awareness(delta: float):
+func _handle_noise(delta: float):
 	var bodies = noise_radius.get_overlapping_bodies()
-	var player_visible_nearby = false
+	var player_visible = false
+	var player_direction = Vector2.ZERO
 	for body in bodies:
-		if body.name == "Player":
-			if body.modulate.a > 0.5:
-				player_visible_nearby = true
-				var direction = (body.global_position - global_position).normalized()
-				_handle_animation(direction)
-				var target_angle = atan2(direction.y, direction.x)
-				vision_cone.rotation = lerp_angle(rotation, target_angle, rotation_speed * delta)
-	if not player_visible_nearby:
-		player_spotted = false
-		reaction_timer = 0.0
+		if body.name == "Player" and body.modulate.a > 0.5:
+			player_visible = true
+			player_direction = (body.global_position - global_position).normalized()
+			break
+	if player_visible:
+		is_alerted = true
+		velocity = Vector2.ZERO
+		_handle_animation(player_direction)
+		_update_vision_cone(player_direction)
+	else:
+		is_alerted = false
 
-func _handle_detection(delta: float):
+func _on_body_entered_vision(body):
+	if body.name == "Player" and body.modulate.a > 0.5:
+		_kill_player(body)
+
+func _handle_vision_detection():
+	if is_killing:
+		return
 	var bodies = vision_cone.get_overlapping_bodies()
 	for body in bodies:
-		if body.name == "Player":
-			if body.modulate.a > 0.5:
-				player_spotted = true
-	if player_spotted:
-		reaction_timer += delta
-		if reaction_timer >= reaction_time:
-			get_tree().reload_current_scene()
-	else:
-		reaction_timer = 0.0
+		if body.name == "Player" and body.modulate.a > 0.5:
+			_kill_player(body)
+			return
+
+func _kill_player(player):
+	if is_killing:
+		return
+	is_killing = true
+	$Kill.play()
+	player.kill()
+
+func _update_vision_cone(direction: Vector2):
+	var angle = atan2(direction.y, direction.x)
+	var snapped = round(angle / (PI / 4)) * (PI / 4)
+	vision_cone.rotation = snapped
 
 func _handle_animation(directioning: Vector2):
-	if directioning.x > 0:
-		animated_sprite.play('walk_right')
-	elif directioning.x < 0:
-		animated_sprite.play('walk_left')
-	elif directioning.y > 0:
-		animated_sprite.play('walk_up')
-	elif directioning.y < 0:
-		animated_sprite.play('walk_down')
-
+	if abs(directioning.x) > abs(directioning.y):
+		if directioning.x > 0:
+			animated_sprite.play('walk_right')
+		else:
+			animated_sprite.play('walk_left')
 	else:
-		animated_sprite.play('idle')
+		if directioning.y > 0:
+			animated_sprite.play('walk_down')
+		else:
+			animated_sprite.play('walk_up')

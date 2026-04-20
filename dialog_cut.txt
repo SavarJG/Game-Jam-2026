@@ -1,0 +1,63 @@
+	"""
+		2:
+			dialogue.show_line("You", "...", [
+				"Killed a midget",
+				"Killed a goblin",
+				"Killed a squid"
+			])
+
+		3:
+			dialogue.show_line("Wizard", "Damn. You really had no choice but to kill. Anyway, have ya ever heard of Super Mario?.")
+
+		4:
+			dialogue.show_line("You", "...", [
+				"Nah, whats a mario?",
+				"Yeah, he's my plumber.",
+				"..."
+			])
+		5:
+			dialogue.show_line("Wizard", "Yeah so basically Marios Bitch is always getting stolen and he has to go save her everytime")
+			
+		6:
+			dialogue.show_line("You", "Ok... im not following though")
+
+		7:
+			dialogue.show_line("Wizard", "I'm like mario man, I have to escape this dungeon. Get to the top and save this hoe ass princess")
+
+		8:
+			dialogue.show_line("You", "...", [
+				"Goodluck with that man, i'm just going to die in here. Outside was boring anyway",
+				"Let me not stop ya",
+				"..."
+			])
+
+		9:
+			dialogue.show_line("Wizard", "No listen, I CANT save her. You HAVE TO now. Im not going to be around much longer")
+
+		10:
+			dialogue.show_line("You", "WHAT! Why cant you save her man?")
+
+		11:
+			dialogue.show_line("Wizard", "Listen man, even 100 year old wizards make mistakes")
+
+		12:
+			dialogue.show_line("You", "What kind of mistakes?")
+
+		13:
+			dialogue.show_line("Wizard", "Sigh, I was trying to get with this Zulu chick. Tried to cast a spell to pay her labola and........... accidentally gave myself Ebola.")
+
+		14:
+			dialogue.show_line("You", "Fuck thats deep")
+
+		15:
+			dialogue.show_line("Wizard", "I know. But listen you're going to save her. I know you can. Before I die in this cell , i'm going to give you the power too")
+
+		16:
+			dialogue.show_line("You", "How?")
+
+		17:
+			dialogue.show_line("Wizard", "I'm going to cast a spell on you . When you move you'll be invisible. Stand still, seen. Got it? I hope. Use these powers to escape through the catacombs and find the princess...")
+
+		18:
+			dialogue.show_line("You", "I got it!")
+		"""

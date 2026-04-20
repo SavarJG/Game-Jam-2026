@@ -1,14 +1,15 @@
-[gd_scene load_steps=36 format=3 uid="uid://cxika2oalog6h"]
+[gd_scene load_steps=37 format=3 uid="uid://cxika2oalog6h"]
 
 [ext_resource type="Script" uid="uid://wmnw3qqao5c3" path="res://scripts/guard.gd" id="1_m4fl1"]
 [ext_resource type="Texture2D" uid="uid://daaoxe6gx3ko4" path="res://assets/sprites/Orc1/Orc1_idle/orc1_idle_full.png" id="2_k0dx2"]
 [ext_resource type="Texture2D" uid="uid://crhf2fah3qcy" path="res://assets/sprites/Orc1/Orc1_walk/orc1_walk_full.png" id="3_ygo2t"]
+[ext_resource type="AudioStream" uid="uid://6xngscmrwrfh" path="res://assets/Sounds/death.mp3" id="4_ygo2t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2hhgp"]
 size = Vector2(10, 10)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m4fl1"]
-size = Vector2(60, 40)
+size = Vector2(79, 45)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_m4fl1"]
 radius = 27.45
@@ -239,13 +240,7 @@ animations = [{
 
 [node name="Guard" type="CharacterBody2D"]
 script = ExtResource("1_m4fl1")
-
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(1, 0.419608, 0.207843, 1)
+reaction_time = 0.2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_2hhgp")
@@ -259,11 +254,11 @@ shape = SubResource("RectangleShape2D_2hhgp")
 [node name="VisionCone" type="Area2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="VisionCone"]
-color = Color(1, 0.843137, 0, 1)
+color = Color(1, 0.843137, 0, 0.227451)
 polygon = PackedVector2Array(0, 0, 80, -40, 80, 40)
 
 [node name="Vision" type="CollisionShape2D" parent="VisionCone"]
-position = Vector2(30, 0)
+position = Vector2(39.5, 2.5)
 shape = SubResource("RectangleShape2D_m4fl1")
 
 [node name="Label" type="Label" parent="."]
@@ -278,7 +273,9 @@ shape = SubResource("CircleShape2D_m4fl1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_bv42e")
-animation = &"idle"
-frame_progress = 0.389146
+animation = &"walk_up"
+
+[node name="Kill" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_ygo2t")
 
 [connection signal="body_entered" from="VisionCone" to="." method="_on_vision_cone_body_entered"]

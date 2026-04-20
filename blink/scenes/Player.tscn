@@ -1,8 +1,9 @@
-[gd_scene load_steps=38 format=3 uid="uid://ck7x0kdbwurs0"]
+[gd_scene load_steps=39 format=3 uid="uid://ck7x0kdbwurs0"]
 
 [ext_resource type="Script" uid="uid://bloncm5onenqt" path="res://scripts/player.gd" id="1_p0vlq"]
 [ext_resource type="Texture2D" uid="uid://cc3riii7mj7wh" path="res://assets/sprites/Main Character/Character_Idle.png" id="2_v6fml"]
 [ext_resource type="Texture2D" uid="uid://dgduypcr4exrm" path="res://assets/sprites/Main Character/Character_Walk.png" id="3_3li8b"]
+[ext_resource type="AudioStream" uid="uid://6xngscmrwrfh" path="res://assets/Sounds/death.mp3" id="4_mdl7e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6e537"]
 atlas = ExtResource("2_v6fml")
@@ -292,3 +293,6 @@ offset_left = -20.0
 offset_top = -13.0
 offset_right = 20.0
 offset_bottom = 13.0
+
+[node name="Death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_mdl7e")

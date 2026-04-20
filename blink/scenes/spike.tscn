@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://drwe7lvom01qa"]
+
+[ext_resource type="Script" uid="uid://daddkkrdkpri5" path="res://scripts/spike.gd" id="1_7a7y0"]
+[ext_resource type="Texture2D" uid="uid://bvgtowfdgyoke" path="res://assets/TileSet/spike_0.png" id="2_d2mqm"]
+[ext_resource type="AudioStream" uid="uid://6xngscmrwrfh" path="res://assets/Sounds/death.mp3" id="3_d2mqm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cx2lw"]
+size = Vector2(19, 15)
+
+[node name="Spike" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_7a7y0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_d2mqm")
+
+[node name="SpikeHit" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpikeHit"]
+position = Vector2(-1.5, -0.5)
+shape = SubResource("RectangleShape2D_cx2lw")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cx2lw")
+
+[node name="Kill" type="AudioStreamPlayer2D" parent="."]
+scale = Vector2(2, 2)
+stream = ExtResource("3_d2mqm")
+
+[connection signal="body_entered" from="SpikeHit" to="." method="_on_spike_hit_body_entered"]
